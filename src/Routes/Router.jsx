@@ -10,6 +10,7 @@ import Register from "../Page/Register";
 import AuthLayout from "../layout/AuthLayout";
 import NewsDetails from "../Page/NewsDetails";
 import PrivetRoute from "../Provider/PrivetRoute";
+import Loading from "../Page/Loading";
  export const router = createBrowserRouter([
     {
       path: "/",
@@ -22,7 +23,8 @@ import PrivetRoute from "../Provider/PrivetRoute";
         {
             path:"/category/:id",
             Component:CategoryNews,
-            loader:()=>fetch("/news.json")
+            loader:()=>fetch("/news.json"),
+            hydrateFallbackElement:<Loading></Loading>
            
         }
       ]
@@ -45,7 +47,8 @@ import PrivetRoute from "../Provider/PrivetRoute";
         element:<PrivetRoute>
           <NewsDetails></NewsDetails>
         </PrivetRoute> ,
-        loader:()=>fetch("/news.json")
+        loader:()=>fetch("/news.json"),
+        hydrateFallbackElement:<Loading></Loading>
       },
       {
         path: "/*",
