@@ -1,11 +1,14 @@
-import React, { use } from "react";
-import { Link } from "react-router";
+import React, { use, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 
 const Login = () => {
-
-
+    const [error,setError]=useState("")
+ 
   const {signIn}=use(AuthContext)
+  const location =useLocation()
+  const navigate=useNavigate()
+  console.log(location);
  const handleLogin=(e)=>{
 
   e.preventDefault()
@@ -21,11 +24,14 @@ const Login = () => {
   .then(result => {
     const user = result.user;
     console.log(user);
+    navigate(location.state? location.state : "/");
+
+
   })
   .catch((error) => {
     
     const errorMessage = error.message;
-     alert(errorMessage)
+    setError(errorMessage)
   });
 
 
@@ -39,13 +45,15 @@ const Login = () => {
         <form onSubmit={handleLogin} className="card-body">
           <fieldset className="fieldset">
             <label className="label">Email</label>
-            <input type="email" autoComplete="username"  name="email" className="input" placeholder="Email" />
+            <input type="email" required autoComplete="username"  name="email" className="input" placeholder="Email" />
             <label className="label">Password</label>
-            <input name="password" autoComplete="current-password"  type="password" className="input" placeholder="Password" />
+            <input name="password" required autoComplete="current-password"  type="password" className="input" placeholder="Password" />
             <div>
               <a className="link link-hover">Forgot password?</a>
             </div>
-           
+           {
+            error &&<p className="text-red-500 text-xs">{error}</p>
+           }
             <button type="submit" className="btn btn-neutral mt-4">Login</button>
             <p className="font-semibold pt-5 text-center">Dont't Have An Account ? <Link className="text-secondary " to="/auth/register">Register</Link></p>
           </fieldset>

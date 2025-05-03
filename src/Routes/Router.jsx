@@ -8,6 +8,8 @@ import CategoryNews from "../Page/CategoryNews";
 import Login from "../Page/Login";
 import Register from "../Page/Register";
 import AuthLayout from "../layout/AuthLayout";
+import NewsDetails from "../Page/NewsDetails";
+import PrivetRoute from "../Provider/PrivetRoute";
  export const router = createBrowserRouter([
     {
       path: "/",
@@ -39,8 +41,11 @@ import AuthLayout from "../layout/AuthLayout";
           }]
       },
       {
-        path: "/news",
-        element: <div>news layout</div>,
+        path: "/news-details/:id",
+        element:<PrivetRoute>
+          <NewsDetails></NewsDetails>
+        </PrivetRoute> ,
+        loader:()=>fetch("/news.json")
       },
       {
         path: "/*",
